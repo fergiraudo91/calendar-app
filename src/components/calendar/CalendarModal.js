@@ -5,7 +5,7 @@ import moment from 'moment';
 import Swal from 'sweetalert2'
 import { useDispatch, useSelector } from 'react-redux';
 import { uiCloseModal } from '../../actions/ui';
-import { clearEventActive, eventAddNew, eventUpdated } from '../../actions/events';
+import { clearEventActive, eventStartAddNew, eventStartUpdate } from '../../actions/events';
 
 const customStyles = {
     content: {
@@ -41,7 +41,7 @@ export const CalendarModal = () => {
     const { notes, title, start, end } = formValues;
 
     useEffect(() => {
-       
+       console.log(formValues);
         if(activeEvent){
 
             setformValues(activeEvent);
@@ -65,17 +65,10 @@ export const CalendarModal = () => {
         }
 
         if(activeEvent){
-            dispatch(eventUpdated(formValues));
+            dispatch(eventStartUpdate(formValues));
         }
         else{
-            dispatch(eventAddNew({
-                ...formValues,
-                id: new Date().getTime(),
-                user: {
-                    _id: 123,
-                    name: 'Tutuca'
-                }
-            }));
+            dispatch(eventStartAddNew(formValues));
         }
         
         settitleValid(true);
@@ -131,7 +124,7 @@ export const CalendarModal = () => {
                     <label>Fecha y hora inicio</label>
                     <DateTimePicker
                         onChange={handleStartDateChange}
-                        value={formValues.start}
+                        value={formValues.start._d}
                         className="form-control"
                     />
                 </div>
@@ -142,7 +135,7 @@ export const CalendarModal = () => {
                         onChange={handleEndDateChange}
                         value={formValues.end}
                         className="form-control"
-                        minDate={formValues.start}
+                        minDate={formValues.start._d}
                     />
                 </div>
 
