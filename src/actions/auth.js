@@ -81,4 +81,4 @@ export const startChecking = () => {
   }
 }
 
-const checkingFinish = () => ({ type: types.authCheckingFinnish });
+export const checkingFinish = () => ({ type: types.authCheckingFinnish });
